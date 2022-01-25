@@ -5,11 +5,11 @@
 
 using namespace std;
 
-int T, n, c, len, lt;
-int k[105], h[105], t[105];
+long long T, n, c, len, lt;
+long long k[105], h[105], t[105];
 
-int read() {
-	int s = 0, w = 1;
+long long read() {
+	long long s = 0, w = 1;
 	char ch = getchar();
 	while (ch != '-' && (ch < '0' || ch > '9')) ch = getchar();
 	if (ch == '-') w = -w, ch = getchar();
@@ -43,6 +43,6 @@ int main() {
 		for (int i = 1; i <= len; ++i) {
 			c += (1 + t[i]) * t[i] / 2;
 		}
-		printf("%d\n", c);
+		printf("%lld\n", c);
 	}
 }
