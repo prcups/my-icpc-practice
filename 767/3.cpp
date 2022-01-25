@@ -2,11 +2,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <map>
 
 using namespace std;
 
-int T, n, l, len, maxn;
-int a[200005], b[200005], c[200005], d[200005], m[200005];
+int T, n, l, len, maxn, pt;
+int a[200005], d[200005], m[200005], c[200005];
 
 inline int read() {
 	int s = 0, w = 1;
@@ -17,21 +18,23 @@ inline int read() {
 	return s * w;
 }
 
-inline void getMEX(int pt) {
+inline int getMEX() {
+	int ans = 0;
 	l = 0;
 	memset(c, 0, sizeof(c));
+	int p = pt;
 	for (; pt <= n; ++pt) {
-		if (l != a[pt]) {
-			b[pt] = l;
-			c[a[pt]] = 1;
-		} else {
-			c[a[pt]] = 1;
-			++l;
+		c[a[pt]] = 1;
+		if (l == a[pt]) {
 			for (;c[l] != 0; ++l);
-			b[pt] = l;
 		}
-		if (b[pt] > m[pt]) break;
+		ans = l;
+		if (ans == m[p]) {
+			++pt;
+			break;
+		}
 	}
+	return ans;
 }
 
 int main() {
@@ -40,24 +43,22 @@ int main() {
 		n = read();
 		len = 0;
 		memset(m, 0, sizeof(m));
-		memset(b, 0, sizeof(b));
 		for (int i = 1; i <= n; ++i) {
 			a[i] = read();
 		}
+		l = 0;
+		memset(c, 0, sizeof(c));
 		for (int i = n; i >= 1; --i) {
-			m[i] = max(m[i + 1], a[i]);
-		}
-		int pt = 1;
-		while (pt <= n) {
-			getMEX(pt);
-			maxn = -1;
-			for (int i = pt; i <= n; ++i) {
-				if (b[i] > maxn) {
-					maxn = b[i];
-					pt = i;
-				}
+			c[a[i]] = 1;
+			if (l == a[i]) {
+				for (;c[l] != 0; ++l);
 			}
-			d[++len] = b[pt++];
+			m[i] = l;
+		}
+		pt = 1;
+		while (pt <= n) {
+			maxn = getMEX();
+			d[++len] = maxn;
 		}
 		printf("%d\n", len);
 		for (int i = 1; i <= len; ++i) {
