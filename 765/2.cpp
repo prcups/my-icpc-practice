@@ -1,11 +1,13 @@
 #include <iostream>
 #include <cstdio>
-#include <cstring>
+#include <algorithm>
 
 using namespace std;
 
 int T, n, t, ans;
-int c[150005];
+struct node{
+	int t, v;
+} c[150005];
 
 int read() {
 	int s = 0, w = 1;
@@ -16,25 +18,23 @@ int read() {
 	return s * w;
 }
 
-inline int calc(int l, int pt) {
-	return min(pt * 2 > l ? pt * 2 - 1: pt * 2, (l - pt + 1) * 2 - 1);
-
+bool cmp(const node & a, const node & b) {
+	return (a.v < b.v) || (a.v == b.v && a.t < b.t);
 }
 
 int main() {
 	T = read();
 	while (T--) {
-		ans = -1;
-		memset(c, 0, sizeof(c));
 		n = read();
 		for (int i = 1; i <= n; ++i) {
-			t = read();
-			if (c[t]) {
-				int d = calc(n, i);
-				ans = max(ans, min(c[t], d));
-				c[t] = max(c[t], d);
-			} else {
-				c[t] = calc(n, i);
+			c[i].t = i;
+			c[i].v = read();
+		}
+		sort(c + 1, c + n + 1, cmp);
+		int ans = -1;
+		for (int i = 1; i < n; ++i) {
+			if (c[i].v == c[i + 1].v) {
+				ans = max(ans, n - c[i + 1].t + c[i].t);
 			}
 		}
 		printf("%d\n", ans);
