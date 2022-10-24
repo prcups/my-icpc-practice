@@ -4,7 +4,7 @@
 using namespace std;
 
 int n;
-int a[1000005];
+int a[1000005], b[1000005], t[1000005];
 
 int main() {
     scanf("%d", &n);
@@ -34,11 +34,29 @@ int main() {
         return 0;
     }
 
-    int mx = 0, mxj;
+    for (int i = s; i <= l; ++i) {
+        for (int j = l; j <= n; ++j) {
+            t[j] = (a[i + j - l] | a[j]);
+        }
+        bool f = 0;
+        for (int j = l; j <= n; ++j) {
+            if (b[j] > t[j]) break;
+            if (b[j] < t[j]) {
+                f = 1;
+                break;
+            }
+        }
+        if (f) {
+            for (int j = l; j <= n; ++j) {
+                b[j] = t[j];
+            }
+        }
+    }
 
     for (int i = s; i < l; ++i) {
-        for (int j = l; j <= n; ++j) {
-            if ()
-        }
+        printf("%d", a[i]);
+    }
+    for (int i = l; i <= n; ++i) {
+        printf("%d", b[i]);
     }
 }
