@@ -15,14 +15,17 @@ int main() {
             scanf("%d", &a[i]);
         }
         sort(a + 1, a + n + 1);
-        int l = 1, r = n, ans = 0;
+        int l = 1, r = n / 2 + (n % 2), ans = 0;
         while (l <= r) {
             int mid = (l + r) >> 1;
-            int t = 0;
-            for (int i = 1; i <= n; ++i) {
-                if (a[i] <= i && a[i] <= mid) ++t;
+            bool f = 0;
+            for (int i = mid * 2 - 1, t = mid; t >= 1; --i, --t) {
+                if (a[i] > t) {
+                    f = 1;
+                    break;
+                }
             }
-            if (t / 2 + (t % 2) >= mid) {
+            if (!f) {
                 ans = mid;
                 l = mid + 1;
             } else {
